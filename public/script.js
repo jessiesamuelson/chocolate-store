@@ -36,14 +36,18 @@ Cart.prototype = {
   addToCart: function ( opts ) {
     // If item already exists, increase by one
     // Else add item to cart
-    var type = opts.type
+    var type  = opts.type,
+        price = opts.price;
+
     if ( cart.contents[type] ) {
-      cart.contents[type] += 1;
+      cart.contents[type].quantity += 1;
     }
     else {
-      cart.contents[type] = 1;
+      cart.contents[type] = {
+        quantity: 1,
+        price:    price
+      }
     }
-    console.log(cart);
   }
 }
 
@@ -52,7 +56,6 @@ var cart = new Cart();
 var InventoryTable = function ( opts ) {
   this.chocolates = opts.chocolates;
   this.table      = opts.table;
-  console.log("inventory table created");
 }
 
 InventoryTable.prototype = {
@@ -147,14 +150,64 @@ CartModal.prototype = {
   },
   populateModal: function ( cart ) {
     for ( var key in cart ) {
-      this.addCartRow( { type: key, price: cart[key] } )
+      this.addCartRow( { type: key, price: cart[key].price, quantity: cart[key].quantity } )
     }
   },
   addCartRow: function ( cartObject ) {
-    var entry = createTableElement({
-      tagName: "tr",
-      id:      cartObject.type + "-entry"
-    });
+    var type     = cartObject.type,
+        price    = cartObject.price,
+        quantity = cartObject.quantity;
+
+    if ( document.getElementById(type + "-entry") ) {
+      var entry           = document.getElementById(type + "-entry");
+      var quantityElement = entry.children[2];
+      var value = quantityElement.innerHTML;
+      value = Math.floor(value);
+      value++;
+      quantityElement.innerHTML = value;
+    }
+    else {
+      // create entry
+      var entry = createTableElement({
+        tagName: "tr",
+        id:      type + "-entry"
+      });
+
+
+      var type = createTableElement({
+        tagName:   "td",
+        className: "cart-type",
+        innerHTML: type
+      })
+
+      var price = createTableElement({
+        tagName:   "td",
+        className: "cart-price",
+        innerHTML: price
+      })
+
+      var quantity = createTableElement({
+        tagName:   "td",
+        className: "cart-quantity",
+        innerHTML: quantity
+      })
+
+      var removeButton = createTableElement({
+        tagName:   "button",
+        className: "cart-remove",
+        innerHTML: "Remove"
+      })
+
+      removeButton.onclick = function () {
+        // TODO: implement remove funtionality
+      }
+
+
+      entry.appendChild(type);
+      entry.appendChild(price);
+      entry.appendChild(quantity);
+      entry.appendChild(removeButton);
+    }
 
     this.table.appendChild(entry);
 

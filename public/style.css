@@ -82,3 +82,16 @@ td {
     text-decoration: none;
     cursor:          pointer;
 }
+
+.cart-type {
+  width: 200px;
+}
+
+.cart-price {
+  width: 200px;
+}
+
+.cart-quantity {
+  width: 200px;
+}
+
