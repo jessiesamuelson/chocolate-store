@@ -5,9 +5,8 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
+    <header>Sugar Sweet Chocolate Treats</header>
 		<div id="container">
-			<header>Sugar Sweet Chocolate Treats</header>
-			
 
       <div id="inventory">
 				<table>
@@ -19,15 +18,16 @@
 
       <button id="view-cart">
         <p>View Cart</p>
-        <p><span>0</span> Items</p>
+        <p><span id="total-items">0</span> Items</p>
       </button>
 
 
       <div id="cart-modal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
-          <span class="close">x</span>
-          <table>
+          <!-- <span class="close">x</span> -->
+          <div id="empty-message">The cart is empty</div>
+          <table id="modal-table">
             <thead>
               <tr>
                 <th class="cart-type">Item</th>
@@ -38,11 +38,20 @@
             <tbody id="modal-table-body">
             </tbody>
           </table>
+
+          <div id="total">Total: <span id="cart-total">$0.00</span></div>
+          <br>
+          <div id="modal-buttons">
+            <button id="close-modal" class="close">Close</button>
+            <button id="clear-modal">Clear</button>
+          </div>
+
         </div>
       </div>
 
 
 		</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

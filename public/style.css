@@ -1,47 +1,76 @@
 * {
-	margin: 0;
-	padding: 0;
-	font-family: Arial;
+  margin: 0;
+  padding: 0;
+
 }
 
 body {
-	background-color: magenta;
+  margin: 0;
+  padding: 0;
+  font-family: Arial;
+	background-color: #E9A8E9;;
+  font-size: 16px
 }
 
 header {
-	background-color: black;
-	color: white;
+  background-color: black;
+  color: white;
+  height: 8vh;
+  text-align: center;
+  padding-top: 5vh;
+  font-size: 1.5em
 }
 
+button {
+  padding: 10px;
+  background-color: #D7F62E;
+  font-size: .9em;
+  border: 1px solid;
+  font-weight: bold;}
+
+button:hover {
+  background-color: #3FFF3F;
+}
 
 /* Inventory Table/Menu */
+#container {
+  width: 80%;
+  margin: 0 auto;
+}
+
 #inventory {
-	background-color: #ccc;
+	background-color: #fff;
 	display: inline-block;
-	margin: 5px;
+	margin-top: 5%;
+  width: 80%;
 }
 
 td {
-  border: 1px solid black;
+  /*border: 1px solid black;*/
 	margin: 5px;
+  padding: 10px;
+  text-align: center;
 }
 
 .type-description {
-	width: 400px
+	width: 70%;
+  text-align: left;
 }
 
 .type {
 	font-weight: bold;
+  text-transform: capitalize;
+  margin-bottom: 8px;
 }
 
 .description {
-	font-size: 12px;
+	font-size: 0.85em
 }
 
 #view-cart {
   display: inline-block;
   vertical-align: top;
-  margin: 5px;
+  margin-top: 5%;
 }
 
 
@@ -64,16 +93,20 @@ td {
   margin:           15% auto;
   padding:          20px;
   border:           1px solid #888;
-  width:            80%;
+  width:            50%;
   position: 			  relative;
+}
+
+#modal-table {
+  display: none;
 }
 
 /* The Close Button */
 .close {
-  position: absolute;
+/*  position: absolute;
   right:    0;
   top:      0;
-  color:    #444;
+  color:    #444;*/
 }
 
 .close:hover,
@@ -95,3 +128,10 @@ td {
   width: 200px;
 }
 
+.modal-button {
+  display: inline-block;
+}
+
+#total {
+  margin: 5% 0;
+}
