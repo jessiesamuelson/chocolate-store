@@ -1,93 +1,27 @@
-var table;
-function setData ( ajaxData ) {
-  var data         = ajaxData;
-  var tableElement = document.getElementById('table-body');
-  var totalItems   = document.getElementById("total-items");
-
-  table = new InventoryTable( { chocolates: data.chocolates, table: tableElement, totalItems: totalItems } )
-  table.createTable();
-  return data;
-
-}
-
-$.ajax({
-  url: "/data/inventory.json",
-  success: function ( ajaxData ) {
-    setData(ajaxData);
-  },
-  error: function ( error ) {
-    console.log(error);
-  }
-});
-
-// Define Cart Object
-var Cart = function () {
-  this.contents = {};
-}
-
-Cart.prototype = {
-  // Add item to cart
-  addToCart: function ( opts ) {
-    // If item already exists, increase by one
-    // Else add item to cart
-    var type  = opts.type,
-        price = opts.price;
-
-    if ( cart.contents[type] ) {
-      cart.contents[type].quantity += 1;
-    }
-    else {
-      cart.contents[type] = {
-        quantity: 1,
-        price:    price
-      }
-    }
-  },
-  removeFromCart: function ( type ) {
-    if ( cart.contents[type] ) {
-      this.contents[type].quantity -= 1;
-    }
-    if ( this.contents[type].quantity === 0 ) {
-      delete this.contents[type];
-    }
-    cartModal.populateModal( this.contents );
-  },
-  calculateTotalPrice: function () {
-    var total = 0;
-    for ( var key in this.contents ) {
-      var price = parseFloat(this.contents[key].price);
-      var quantity = this.contents[key].quantity;
-      total += price * quantity;
-    }
-    cartModal.updateTotal(total);
-  },
-  clearCart: function () {
-    this.contents = {};
-    cartModal.populateModal(this.contents);
-    table.updateButton();
-  },
-  calculateTotalItems: function () {
-    var total = 0;
-    for ( var key in this.contents ) {
-      total += this.contents[key].quantity;
-    }
-    return total;
-  }
-
-}
-
-// Create cart object
-var cart = new Cart();
-
 // Define InventoryTable object
 var InventoryTable = function ( opts ) {
-  this.chocolates  = opts.chocolates;
   this.table       = opts.table;
   this.totalItems  = opts.totalItems;
 }
 
 // InventoryTable functions
 InventoryTable.prototype = {
+  getData: function() {
+    var that = this;
+    $.ajax({
+      url: "/data/inventory.json",
+      success: function ( ajaxData ) {
+        that.setData(ajaxData);
+      },
+      error: function ( error ) {
+        console.log(error);
+      }
+    });
+  },
+  setData: function( ajaxData ) {
+    this.chocolates = ajaxData.chocolates;
+    this.createTable();
+  },
 
   // Create and populate table
   createTable: function () {
@@ -135,7 +69,7 @@ InventoryTable.prototype = {
     addButton.onclick = function () {
       var detailObject = JSON.parse(this.getAttribute('data-button'));
       cart.addToCart( detailObject );
-      table.updateButton();
+      inventoryTable.updateButton();
     }
 
     // Append elements to entry
@@ -151,11 +85,82 @@ InventoryTable.prototype = {
   }
 }
 
+var tableElement = document.getElementById('table-body');
+var totalItems   = document.getElementById("total-items");
+
+var inventoryTable = new InventoryTable( { table: tableElement, totalItems: totalItems } )
+inventoryTable.getData();
+
+
+
+
+
+// Define Cart Object
+var Cart = function () {
+  this.contents = {};
+}
+
+Cart.prototype = {
+  // Add item to cart
+  addToCart: function ( opts ) {
+    // If item already exists, increase by one
+    // Else add item to cart
+    var type  = opts.type,
+        price = opts.price;
+
+    if ( cart.contents[type] ) {
+      cart.contents[type].quantity += 1;
+    }
+    else {
+      cart.contents[type] = {
+        quantity: 1,
+        price:    price
+      }
+    }
+  },
+  removeFromCart: function ( type ) {
+    if ( cart.contents[type] ) {
+      this.contents[type].quantity -= 1;
+    }
+    if ( this.contents[type].quantity === 0 ) {
+      delete this.contents[type];
+    }
+    cartModal.populateModal( this.contents );
+  },
+  calculateTotalPrice: function () {
+    var total = 0;
+    for ( var key in this.contents ) {
+      var price = parseFloat(this.contents[key].price);
+      var quantity = this.contents[key].quantity;
+      total += price * quantity;
+    }
+    cartModal.updateTotal(total);
+  },
+  clearCart: function () {
+    this.contents = {};
+    cartModal.populateModal(this.contents);
+    inventoryTable.updateButton();
+  },
+  calculateTotalItems: function () {
+    var total = 0;
+    for ( var key in this.contents ) {
+      total += this.contents[key].quantity;
+    }
+    return total;
+  }
+
+}
+
+// Create cart object
+var cart = new Cart();
+
+
+
+
 // Define CartModal
 var CartModal = function ( opts ) {
   this.modal  = opts.modal;
   this.button = opts.button;
-  // this.span   = opts.span;
   this.table  = opts.table;
   this.total  = opts.total;
   this.close  = opts.close;
@@ -180,7 +185,6 @@ CartModal.prototype = {
       this.table.removeChild(this.table.firstChild);
     }
     if ( Object.keys(cartContents).length === 0) {
-      console.log("empty")
       document.getElementById("empty-message").style.display = "block";
       document.getElementById("modal-table").style.display = "none";
     }
@@ -223,7 +227,7 @@ CartModal.prototype = {
       // Add click event to remove button
       removeButton.onclick = function () {
         cart.removeFromCart( type );
-        table.updateButton();
+        inventoryTable.updateButton();
       }
 
       // Add elements to entry
@@ -263,7 +267,6 @@ var total = document.getElementById("cart-total");
 var cartModal = new CartModal ({
   modal:  modal,
   button: button,
-  // span:   span,
   table:  modalTable,
   total:  total,
   close:  close,

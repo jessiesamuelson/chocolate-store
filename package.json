@@ -6,12 +6,17 @@
   "dependencies": {
     "express": "^4.12.3",
     "jasmine-core": "^2.3.0",
+    "jquery": "^2.2.4",
     "karma": "^0.12.31",
+    "karma-chrome-launcher": "^0.2.0",
     "karma-jasmine": "^0.3.5",
-    "karma-phantomjs-launcher": "^0.1.4"
+    "karma-phantomjs-launcher": "^0.1.4",
+    "webdriverio": "^3.4.0",
+    "webpack": "^1.12.14"
   },
   "scripts": {
     "serve": "node ./server.js",
+    "browserify": "browserify test/jessie.js -o test/jessie-spec.js",
     "test": "./node_modules/karma/bin/karma start"
   }
 }

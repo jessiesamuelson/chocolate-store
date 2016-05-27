@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Sugar Sweet Chocolate Treats</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="utf-8">
+    <title>Jasmine Spec Runner</title>
+
+    <link rel="shortcut icon" type="image/png" href="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.4.1/jasmine_favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.4.1/jasmine.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.4.1/jasmine.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.4.1/jasmine-html.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.4.1/boot.js"></script>
   </head>
+
   <body>
-    <header>Sugar Sweet Chocolate Treats</header>
-		<div id="container">
+    <div id="container" style="display: none">
 
       <div id="inventory">
-				<table>
-		      <tbody id="table-body">
-		      </tbody>
-				</table>
-			</div>
+        <table>
+          <tbody id="table-body">
+          </tbody>
+        </table>
+      </div>
       
 
       <button id="view-cart">
@@ -23,10 +32,9 @@
 
 
       <div id="cart-modal" class="modal">
-        <!-- Modal content -->
         <div class="modal-content">
-          <!-- <span class="close">x</span> -->
           <div id="empty-message">The cart is empty</div>
+
           <table id="modal-table">
             <thead>
               <tr>
@@ -41,6 +49,7 @@
 
           <div id="total">Total: <span id="cart-total">$0.00</span></div>
           <br>
+
           <div id="modal-buttons">
             <button id="close-modal" class="close">Close</button>
             <button id="clear-modal">Clear</button>
@@ -49,9 +58,10 @@
         </div>
       </div>
 
-
-		</div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <!-- include source files here... -->
     <script src="src/script.js"></script>
+
+    <!-- include spec files here... -->
+    <script src="spec/script-spec.js"></script>
   </body>
 </html>
