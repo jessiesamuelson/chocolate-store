@@ -33,7 +33,6 @@ InventoryTable.prototype = {
   },
   // Add row to table
   addTableRow: function ( chocolateObject ) {
-
     // Row entry element
     var entry = document.createElement('tr');
 
@@ -85,14 +84,15 @@ InventoryTable.prototype = {
   }
 }
 
+// Table element
 var tableElement = document.getElementById('table-body');
+
+// Total items
 var totalItems   = document.getElementById("total-items");
 
+// Create new inventory table
 var inventoryTable = new InventoryTable( { table: tableElement, totalItems: totalItems } )
 inventoryTable.getData();
-
-
-
 
 
 // Define Cart Object
@@ -108,33 +108,25 @@ Cart.prototype = {
     var type  = opts.type,
         price = opts.price;
 
-    if ( cart.contents[type] ) {
-      cart.contents[type].quantity += 1;
-    }
-    else {
-      cart.contents[type] = {
-        quantity: 1,
-        price:    price
-      }
-    }
+    if ( cart.contents[type] ) { cart.contents[type].quantity += 1; }
+    else { cart.contents[type] = { quantity: 1, price: price } }
   },
+  // Remove items from cart
   removeFromCart: function ( type ) {
-    if ( cart.contents[type] ) {
-      this.contents[type].quantity -= 1;
-    }
-    if ( this.contents[type].quantity === 0 ) {
-      delete this.contents[type];
-    }
+    if ( cart.contents[type] ) { this.contents[type].quantity -= 1; }
+    if ( this.contents[type].quantity === 0 ) { delete this.contents[type]; }
     cartModal.populateModal( this.contents );
   },
+  // Calculate total price of cart
   calculateTotalPrice: function () {
     var total = 0;
     for ( var key in this.contents ) {
-      var price = parseFloat(this.contents[key].price);
+      var price    = parseFloat(this.contents[key].price);
       var quantity = this.contents[key].quantity;
       total += price * quantity;
     }
     cartModal.updateTotal(total);
+    return total;
   },
   clearCart: function () {
     this.contents = {};
@@ -143,9 +135,7 @@ Cart.prototype = {
   },
   calculateTotalItems: function () {
     var total = 0;
-    for ( var key in this.contents ) {
-      total += this.contents[key].quantity;
-    }
+    for ( var key in this.contents ) { total += this.contents[key].quantity; }
     return total;
   }
 
@@ -153,9 +143,6 @@ Cart.prototype = {
 
 // Create cart object
 var cart = new Cart();
-
-
-
 
 // Define CartModal
 var CartModal = function ( opts ) {
@@ -180,7 +167,8 @@ CartModal.prototype = {
     this.modal.style.display = "none";
   },
   // Populate modal
-  populateModal: function ( cartContents ) {    
+  populateModal: function ( cartContents ) {
+    // Remove all elements from table
     while (this.table.firstChild) {
       this.table.removeChild(this.table.firstChild);
     }
@@ -242,7 +230,6 @@ CartModal.prototype = {
   updateTotal: function ( total ) {
     total = numberToPrice(total)
     this.total.innerHTML = total;
-
   }
 }
 
@@ -253,17 +240,19 @@ var modal = document.getElementById('cart-modal');
 // Get the button that opens the modal
 var button = document.getElementById("view-cart");
 
-// Get the <span> element that closes the modal
-// var span = document.getElementsByClassName("close")[0];
-
+// Close button
 var close = document.getElementById("close-modal");
 
+// Clear button
 var clear = document.getElementById("clear-modal");
 
+// Modal Table
 var modalTable = document.getElementById("modal-table-body");
 
+// Total
 var total = document.getElementById("cart-total");
 
+// Create cart modal
 var cartModal = new CartModal ({
   modal:  modal,
   button: button,
@@ -278,17 +267,16 @@ cartModal.button.onclick = function() {
   cartModal.openModal();
 }
 
-// When the user clicks on <span> (x), close the modal
+// When the user clicks on close, close the modal
 cartModal.close.onclick = function() {
   cartModal.closeModal();
 }
 
+// When the user clicks on clear, clear and close the modal
 cartModal.clear.onclick = function() {
   cart.clearCart();
   cartModal.closeModal();
 }
-
-
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
@@ -297,7 +285,7 @@ window.onclick = function(event) {
   }
 }
 
-
+// Helper function for creating elements
 function createTableElement ( opts ) {
   var tagName   = opts.tagName,
       className = opts.className,
@@ -312,19 +300,19 @@ function createTableElement ( opts ) {
   return element;
 }
 
+// Helper function for converting a number into a price
 function numberToPrice ( number ) {
-  // number = 0
   var price;
-  if ( number === 0 ) {
-    price = "0.00";
-  }
-  // number has tens digit place
-  else if ( number % 1 > 0 ) {
-    price = number + "0";
-  }
-  // number is integer
-  else {
-    price = number + ".00"
-  }
+
+  var newNumber = number ? number : 0;
+  // newNumber equals zero
+  if ( newNumber === 0 ) { price = "0.00"; }
+
+  // newNumber has tens digit place
+  else if ( newNumber % 1 > 0 ) { price = newNumber + "0"; }
+
+  // newNumber is integer
+  else { price = newNumber + ".00"; }
+
   return "$" + price;
 }
