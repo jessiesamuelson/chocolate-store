@@ -1,14 +1,18 @@
 {
-  "name": "stride-code-test-web",
+  "name": "Candy Store",
   "version": "1.0.0",
-  "author": "you!",
-  "private": true,
+  "author": "Jessie Samuelson",
+  "engines": {
+    "node": "5.0.0",
+    "npm": "3.3.6"
+  },
   "dependencies": {
     "express": "^4.12.3",
     "jasmine-core": "^2.3.0"
 
   },
   "scripts": {
-    "serve": "node ./server.js"
+    "serve": "node ./server.js",
+    "postinstall": "node ./server.js"
   }
 }
