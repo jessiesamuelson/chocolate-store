@@ -1,5 +1,5 @@
 {
-  "name": "Candy Store",
+  "name": "CandyStore",
   "version": "1.0.0",
   "author": "Jessie Samuelson",
   "engines": {
@@ -12,7 +12,6 @@
 
   },
   "scripts": {
-    "serve": "node ./server.js",
-    "postinstall": "node ./server.js"
+    "start": "node ./server.js"
   }
 }
